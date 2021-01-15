@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ZXing;
 
@@ -11,35 +12,31 @@ namespace DependencyServiceDemos
     {
         public async Task<string> Barcodedecoder(Stream stream)
         {
-            //var input = BitmapFactory.DecodeStream(stream);
 
-            var input2 = await xDecode(stream);
-            //var imgArray = GetRgbBytes(input);
+            var image = await CrossImageEdit.Current.CreateImageAsync(stream);
+            var bytes = image.ToArgbPixels()
+                .Select(it =>
+                {
+                    var color = System.Drawing.Color.FromArgb(it);
+                    return new[] { color.R, color.G, color.B };
+                }).SelectMany(it => it).ToArray();
 
-            //var bcreader = new BarcodeReader();
-            //var result = bcreader.Decode(imgArray,input.Width,input.Height,RGBLuminanceSource.BitmapFormat.Unknown);
-            return input2;
+            var bcreader = new BarcodeReader();
+            var result = bcreader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.Unknown);
+            if (result == null)
+            {
+                return "Nosupport";
+            }
+            else
+            {
+                return result.Text;
+            }
         }
 
         public string Getcode(string result)
         {
             return result;
         }
-
-        //private static byte[] GetRgbBytes(Bitmap image)
-        //{
-        //    var rgbBytes = new List<byte>();
-        //    for (int y = 0; y < image.Height; y++)
-        //    {
-        //        for (int x = 0; x < image.Width; x++)
-        //        {
-        //            var c = new Android.Graphics.Color(image.GetPixel(x, y));
-        //            rgbBytes.AddRange(new[] { c.R, c.G, c.B });
-        //        }
-        //    }
-        //    return rgbBytes.ToArray();
-        //}
-
         private static byte[] GetRgbBytesX(int[] pixel)
         {
             var rgbBytes = new List<byte>();
@@ -55,15 +52,6 @@ namespace DependencyServiceDemos
 
                 rgbBytes.AddRange(new[] { bytesR, bytesG, bytesB });
             }
-
-            //for (int y = 0; y < image.Height; y++)
-            //{
-            //    for (int x = 0; x < image.Width; x++)
-            //    {
-            //        var c = new Android.Graphics.Color(image.GetPixel(x, y));
-            //        rgbBytes.AddRange(new[] { c.R, c.G, c.B });
-            //    }
-            //}
             return rgbBytes.ToArray();
         }
 
@@ -74,7 +62,15 @@ namespace DependencyServiceDemos
             var imgArray = GetRgbBytesX(pixels);
             var bcreader = new BarcodeReader();
             var result = bcreader.Decode(imgArray, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.Unknown);
-            return result.Text;
+            if (result == null)
+            {
+                return "Nosupport";
+            }
+            else
+            {
+                return result.Text;
+            }
+
         }
     }
 }
