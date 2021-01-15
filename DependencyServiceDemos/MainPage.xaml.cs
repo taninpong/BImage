@@ -20,17 +20,20 @@ namespace DependencyServiceDemos
 
             (sender as Button).IsEnabled = false;
 
-            Stream stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
-            if (stream != null)
+            //if (stream != null)
+            //{
+            //    img.Source = ImageSource.FromStream(() => stream);
+            //}
+            string result;
+            using (var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync())
             {
-                img.Source = ImageSource.FromStream(() => stream);
+                var getclass = new decodeBarcode();
+                result = await getclass.Barcodedecoder(stream);
             }
 
-            var getclass = new decodeBarcode();
-
-            var result = getclass.Barcodedecoder(stream);
             Device.BeginInvokeOnMainThread(async () =>
             {
+
                 await DisplayAlert("Scanned Barcode", $"Data is {result}", "OK");
             });
 

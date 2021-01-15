@@ -75,7 +75,6 @@ namespace DependencyServiceDemos
             var bcreader = new BarcodeReader();
             var result = bcreader.Decode(imgArray, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.Unknown);
             return result.Text;
-
         }
     }
 }
