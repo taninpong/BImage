@@ -13,13 +13,10 @@ namespace DependencyServiceDemos
             InitializeComponent();
         }
 
-
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
             var bcreader = new BarcodeReader();
-
             (sender as Button).IsEnabled = false;
-
             string result;
             using (var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync())
             {
@@ -29,12 +26,9 @@ namespace DependencyServiceDemos
 
             Device.BeginInvokeOnMainThread(async () =>
             {
-
                 await DisplayAlert("Scanned Barcode", $"Data is {result}", "OK");
             });
-
             (sender as Button).IsEnabled = true;
-
         }
 
 

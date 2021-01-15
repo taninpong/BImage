@@ -37,6 +37,7 @@ namespace DependencyServiceDemos
         {
             return result;
         }
+
         private static byte[] GetRgbBytesX(int[] pixel)
         {
             var rgbBytes = new List<byte>();
