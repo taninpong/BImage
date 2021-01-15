@@ -20,10 +20,6 @@ namespace DependencyServiceDemos
 
             (sender as Button).IsEnabled = false;
 
-            //if (stream != null)
-            //{
-            //    img.Source = ImageSource.FromStream(() => stream);
-            //}
             string result;
             using (var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync())
             {
