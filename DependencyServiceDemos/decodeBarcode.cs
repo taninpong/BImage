@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using ZXing;
+using ZXing.Common;
 
 namespace DependencyServiceDemos
 {
@@ -13,18 +14,27 @@ namespace DependencyServiceDemos
         public async Task<string> Barcodedecoder(Stream stream)
         {
             var image = await CrossImageEdit.Current.CreateImageAsync(stream);
+            if (image.Width > 961 && image.Height > 1281)
+            {
+                image.Resize(960, 1280);
+            }
             var bytes = image.ToArgbPixels()
                 .Select(it =>
                 {
                     var color = System.Drawing.Color.FromArgb(it);
                     return new[] { color.R, color.G, color.B };
                 }).SelectMany(it => it).ToArray();
-            if (image.Width < 1281 && image.Height < 961)
+            var bcreader = new BarcodeReader()
             {
-                image = image.Resize(1280, 960);
-            }
-            var bcreader = new BarcodeReader();
-            var result = bcreader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.RGB24);
+                Options = new DecodingOptions()
+                {
+                    TryHarder = true,
+                    PossibleFormats = new List<BarcodeFormat>() {BarcodeFormat.QR_CODE }
+                },
+                AutoRotate = true,
+                TryInverted = true
+            };
+            var result = bcreader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.Unknown);
             if (result == null)
             {
                 return "Nosupport";
