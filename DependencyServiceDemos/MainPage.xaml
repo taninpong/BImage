@@ -11,7 +11,12 @@
             <Button x:Name="pickPhoto"
                     Text="Pick Photo"
                     Clicked="OnPickPhotoButtonClicked" />
-            <Image x:Name="img" />
+
+            <ScrollView>
+                <StackLayout>
+                    <Image x:Name="imageOriginal" />
+                </StackLayout>
+            </ScrollView>
         </StackLayout>        
     </ContentPage>
 </TabbedPage>

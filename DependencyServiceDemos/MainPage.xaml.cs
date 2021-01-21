@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plugin.ImageEdit;
+using System;
 using System.IO;
 using Xamarin.Forms;
 using ZXing;
@@ -21,13 +22,17 @@ namespace DependencyServiceDemos
             using (var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync())
             {
                 var getclass = new decodeBarcode();
-                result = await getclass.Barcodedecoder(stream);
+
+                result = await getclass.Barcodedecoder(stream, imageOriginal);
+
             }
 
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await DisplayAlert("Scanned Barcode", $"Data is {result}", "OK");
             });
+
+
             (sender as Button).IsEnabled = true;
         }
 
