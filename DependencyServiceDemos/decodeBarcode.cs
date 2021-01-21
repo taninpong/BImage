@@ -13,7 +13,7 @@ namespace DependencyServiceDemos
 {
     public class decodeBarcode
     {
-        public async Task<string> Barcodedecoder(Stream stream, Image sourceImg)
+        public async Task<(string, bool)> Barcodedecoder(Stream stream)
         {
             var bcreader = new BarcodeReader()
             {
@@ -29,11 +29,12 @@ namespace DependencyServiceDemos
 
             var image = await CrossImageEdit.Current.CreateImageAsync(stream);
 
-            if (image.Width > 961 && image.Height > 1281)
+            var maxlen = 1000;
+
+            if (image.Width > maxlen || image.Height > maxlen)
             {
                 image = image.Resize(500);
             }
-            sourceImg.Source = ImageSource.FromStream(() => new MemoryStream(image.ToPng()));
 
             var pixels = image.ToArgbPixels();
             var orgLen = pixels.Length;
@@ -49,11 +50,11 @@ namespace DependencyServiceDemos
             var result = bcreader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.RGB24);
             if (result == null)
             {
-                return "image not support";
+                return ("image not support",false) ;
             }
             else
             {
-                return result.Text;
+                return (result.Text, true);
             }
         }
 
