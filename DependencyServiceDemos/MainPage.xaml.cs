@@ -16,39 +16,20 @@ namespace DependencyServiceDemos
 
         async void OnPickPhotoButtonClicked(object sender, EventArgs e)
         {
-            var bcreader = new BarcodeReader();
             (sender as Button).IsEnabled = false;
 
-            string textResult;
-            bool canReadQrCode;
-
-            using (var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync())
+            var stream = await DependencyService.Get<IPhotoPickerService>().GetImageStreamAsync();
+            if (stream != null)
             {
-                var getclass = new decodeBarcode();
+                var decodeBarcode = new DecodeBarcode();
+                var (textResult, canReadQrCode) = await decodeBarcode.Decode(stream);
 
-                var result = await getclass.Barcodedecoder(stream);
-                textResult = result.Item1;
-                canReadQrCode = result.Item2;
-            }
-            if (canReadQrCode)
-            {
-
+                var message = canReadQrCode ? $"Data is {textResult}" : "Can't read Qr code";
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await DisplayAlert("Scanned Barcode", $"Data is {textResult}", "OK");
-                });
-
-            }
-            else
-            {
-                Device.BeginInvokeOnMainThread(async () =>
-                {
-                    await DisplayAlert("Scanned Barcode", $"Can't read Qr code", "OK");
+                    await DisplayAlert("Scanned Barcode", message, "OK");
                 });
             }
-
-            
-
 
             (sender as Button).IsEnabled = true;
         }

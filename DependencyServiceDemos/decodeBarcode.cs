@@ -11,11 +11,11 @@ using ZXing.Common;
 
 namespace DependencyServiceDemos
 {
-    public class decodeBarcode
+    public class DecodeBarcode
     {
-        public async Task<(string, bool)> Barcodedecoder(Stream stream)
+        public async Task<(string, bool)> Decode(Stream stream)
         {
-            var bcreader = new BarcodeReader()
+            var reader = new BarcodeReader()
             {
                 Options = new DecodingOptions()
                 {
@@ -24,14 +24,12 @@ namespace DependencyServiceDemos
                 },
                 AutoRotate = true,
                 TryInverted = true,
-
             };
-
             var image = await CrossImageEdit.Current.CreateImageAsync(stream);
 
-            var maxlen = 1000;
-
-            if (image.Width > maxlen || image.Height > maxlen)
+            const int maxlength = 1000;
+            var isImageReachMaximum = image.Width > maxlength || image.Height > maxlength;
+            if (isImageReachMaximum)
             {
                 image = image.Resize(500);
             }
@@ -47,15 +45,8 @@ namespace DependencyServiceDemos
                 bytes[i++] = (byte)(pixel & 0x000000ff);
             }
 
-            var result = bcreader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.RGB24);
-            if (result == null)
-            {
-                return ("image not support",false) ;
-            }
-            else
-            {
-                return (result.Text, true);
-            }
+            var result = reader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.RGB24)?.Text;
+            return (result, !string.IsNullOrEmpty(result));
         }
 
     }
