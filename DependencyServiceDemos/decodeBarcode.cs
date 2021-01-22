@@ -1,4 +1,5 @@
-﻿using Plugin.ImageEdit;
+﻿using DependencyServiceDemos.Models;
+using Plugin.ImageEdit;
 using Plugin.ImageEdit.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace DependencyServiceDemos
 {
     public class DecodeBarcode
     {
-        public async Task<(string, bool)> Decode(Stream stream)
+        public async Task<QrReaderResultModel> Decode(Stream stream)
         {
             var reader = new BarcodeReader()
             {
@@ -46,7 +47,7 @@ namespace DependencyServiceDemos
             }
 
             var result = reader.Decode(bytes, image.Width, image.Height, RGBLuminanceSource.BitmapFormat.RGB24)?.Text;
-            return (result, !string.IsNullOrEmpty(result));
+            return new QrReaderResultModel { Value = result, IsSuccess = !string.IsNullOrEmpty(result) };
         }
 
     }

@@ -22,9 +22,9 @@ namespace DependencyServiceDemos
             if (stream != null)
             {
                 var decodeBarcode = new DecodeBarcode();
-                var (textResult, canReadQrCode) = await decodeBarcode.Decode(stream);
+                var result = await decodeBarcode.Decode(stream);
 
-                var message = canReadQrCode ? $"Data is {textResult}" : "Can't read Qr code";
+                var message = result.IsSuccess ? $"Data is {result.Value}" : "Can't read Qr code";
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await DisplayAlert("Scanned Barcode", message, "OK");
