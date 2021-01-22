@@ -1,16 +1,20 @@
-﻿using Plugin.ImageEdit;
-using System;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 using ZXing;
+using ZXing.Mobile;
 
 namespace DependencyServiceDemos
 {
-    public partial class MainPage : TabbedPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class OpenCamera : ContentPage
     {
-
-        public MainPage()
+        public OpenCamera()
         {
             InitializeComponent();
         }
@@ -24,31 +28,31 @@ namespace DependencyServiceDemos
             {
                 var decodeBarcode = new DecodeBarcode();
                 var result = await decodeBarcode.Decode(stream);
-
                 var message = result.IsSuccess ? $"Data is {result.Value}" : "Can't read Qr code";
                 Device.BeginInvokeOnMainThread(async () =>
                 {
+                    await Navigation.PopAsync();
                     await DisplayAlert("Scanned Barcode", message, "OK");
                 });
             }
+            else
+            {
+                await Navigation.PopAsync();
+            }
 
-            (sender as Button).IsEnabled = true;
+           (sender as Button).IsEnabled = true;
         }
 
-        private  void scanView_OnScanResult(Result result)
+        private void scanView_OnScanResult(Result result)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await DisplayAlert("Scanned result", "The barcode's text is " + result.Text + ". The barcode's format is " + result.BarcodeFormat, "OK");
+                await Navigation.PopAsync();
+                await DisplayAlert("Scanned result", result.Text, "OK");
             });
         }
 
-        private async void OpenCamara(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new OpenCamera());
-        }
-
-        private async void OpenFlash(object sender, EventArgs e)
+        private async void ZXingDefaultOverlay_FlashButtonClicked(Button sender, EventArgs e)
         {
             try
             {

@@ -4,8 +4,11 @@
             x:Class="DependencyServiceDemos.MainPage"
             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms">
     <ContentPage>
-        <ContentPage.Content>
-            <Grid VerticalOptions="CenterAndExpand"
+            <StackLayout>
+            <Button Text="OpenCamara" Clicked="OpenCamara"></Button>
+            <Button Text="OpenFlash" Clicked="OpenFlash"></Button>
+        </StackLayout>
+            <!--<Grid VerticalOptions="CenterAndExpand"
               HorizontalOptions="CenterAndExpand">
                 <zxing:ZXingScannerView x:Name="scanView"
                                         OnScanResult="scanView_OnScanResult"
@@ -20,7 +23,6 @@
                         HorizontalOptions="Start"
                         Clicked="OnPickPhotoButtonClicked" />
                 </zxing:ZXingDefaultOverlay>
-            </Grid>
-        </ContentPage.Content>
+            </Grid>-->
     </ContentPage>
 </TabbedPage>
