@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-            x:Class="DependencyServiceDemos.MainPage">
-    <ContentPage Title="Photo Picker"
-                 Icon="monkeyicon.png">
-        <StackLayout Margin="20,35,20,20">
-            <Label Text="Photo Picker"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
-            <Button x:Name="pickPhoto"
-                    Text="Pick Photo"
-                    Clicked="OnPickPhotoButtonClicked" />
-
-            <ScrollView>
-                <StackLayout>
-                    <Image x:Name="imageOriginal" />
-                </StackLayout>
-            </ScrollView>
-        </StackLayout>        
+            x:Class="DependencyServiceDemos.MainPage"
+            xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms">
+    <ContentPage>
+        <ContentPage.Content>
+            <Grid VerticalOptions="CenterAndExpand"
+              HorizontalOptions="CenterAndExpand">
+                <zxing:ZXingScannerView x:Name="scanView"
+                                        OnScanResult="scanView_OnScanResult"
+                                        IsScanning="True"
+                                        IsAnalyzing="True"
+                                        VerticalOptions="FillAndExpand"
+                                        HorizontalOptions="FillAndExpand" />
+                <zxing:ZXingDefaultOverlay ShowFlashButton="True">
+                    <Button x:Name="browsePhoto"
+                        Text="browse "
+                        VerticalOptions="Start"
+                        HorizontalOptions="Start"
+                        Clicked="OnPickPhotoButtonClicked" />
+                </zxing:ZXingDefaultOverlay>
+            </Grid>
+        </ContentPage.Content>
     </ContentPage>
 </TabbedPage>

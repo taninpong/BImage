@@ -10,6 +10,7 @@ namespace DependencyServiceDemos.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             LoadApplication(new App());
 
             DependencyService.Register<ITextToSpeechService, TextToSpeechService>();

@@ -18,6 +18,8 @@ namespace DependencyServiceDemos.Droid
             base.OnCreate(savedInstanceState);
             Instance = this;
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(Application);
+            ZXing.Net.Mobile.Forms.Android.Platform.Init();
             LoadApplication(new App());
             DependencyService.Register<ITextToSpeechService, TextToSpeechService>();
         }
@@ -46,6 +48,11 @@ namespace DependencyServiceDemos.Droid
                     PickImageTaskCompletionSource.SetResult(null);
                 }
             }
+        }
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
