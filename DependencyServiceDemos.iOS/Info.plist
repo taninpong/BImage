@@ -34,5 +34,9 @@
 	<string>DependencyServiceDemos</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>This application needs your permission to save photos.</string>
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>This application needs your permission to save photos.</string>
 </dict>
 </plist>
