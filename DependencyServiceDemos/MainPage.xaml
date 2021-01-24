@@ -9,8 +9,8 @@
             <Button Text="OpenFlash" Clicked="OpenFlash"></Button>
             <Button Text="ScreenShot" Clicked="OpenScreenShot"></Button>
             <Button Text="ScreenShotAndSave" Clicked="ScreenShotAndSave"></Button>
-            <Image x:Name="yourImage"></Image>
             <Label Text="Clickme" x:Name="label"></Label>
+            <Image x:Name="yourImage"></Image>
         </StackLayout>
             <!--<Grid VerticalOptions="CenterAndExpand"
               HorizontalOptions="CenterAndExpand">
