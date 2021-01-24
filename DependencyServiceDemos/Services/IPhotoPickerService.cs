@@ -5,6 +5,6 @@ namespace DependencyServiceDemos
 {
     public interface IPhotoPickerService
     {
-        Task<Stream> GetImageStreamAsync();
+        Task<Stream> GetImageStreamAsync(); 
     }
 }

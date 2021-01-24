@@ -127,6 +127,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Xam.Plugin.Screenshot">
+      <Version>2.0.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.1874" />
     <PackageReference Include="ZXing.Net.Mobile">
       <Version>3.0.0-beta5</Version>

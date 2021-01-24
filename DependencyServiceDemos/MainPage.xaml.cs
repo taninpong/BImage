@@ -1,4 +1,5 @@
 ﻿using Plugin.ImageEdit;
+using Plugin.Screenshot;
 using System;
 using System.IO;
 using Xamarin.Essentials;
@@ -9,7 +10,6 @@ namespace DependencyServiceDemos
 {
     public partial class MainPage : TabbedPage
     {
-
         public MainPage()
         {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace DependencyServiceDemos
             (sender as Button).IsEnabled = true;
         }
 
-        private  void scanView_OnScanResult(Result result)
+        private void scanView_OnScanResult(Result result)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -69,6 +69,28 @@ namespace DependencyServiceDemos
             catch (Exception ex)
             {
                 // Unable to turn on/off flashlight
+            }
+        }
+
+        private async void OpenScreenShot(object sender, EventArgs e)
+        {
+
+            var stream = new MemoryStream(await CrossScreenshot.Current.CaptureAsync());
+            byte[] dataImg = stream.ToArray();
+            yourImage.Source = ImageSource.FromStream(() => stream);
+
+        }
+        private async void ScreenShotAndSave(object sender, EventArgs e)
+        {
+            try
+            {
+                string path = await CrossScreenshot.Current.CaptureAndSaveAsync();
+                label.Text = "Location: " + path + DateTime.UtcNow.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
             }
         }
     }
