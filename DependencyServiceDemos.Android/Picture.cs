@@ -23,9 +23,14 @@ namespace DependencyServiceDemos.Droid
         {
             var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDcim);
             var pictures = dir.AbsolutePath;
+            string pathString = System.IO.Path.Combine(pictures, "Mana");
+            if (!System.IO.Directory.Exists(pathString))
+            {
+                System.IO.Directory.CreateDirectory(pathString);
+            }
             //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name
             string name = filename + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".jpg";
-            string filePath = System.IO.Path.Combine(pictures, name);
+            string filePath = System.IO.Path.Combine(pathString, name);
             try
             {
                 System.IO.File.WriteAllBytes(filePath, imageData);
