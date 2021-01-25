@@ -14,6 +14,7 @@ namespace DependencyServiceDemos.iOS
             LoadApplication(new App());
 
             DependencyService.Register<ITextToSpeechService, TextToSpeechService>();
+            DependencyService.Register<IPhotoPickerService, PhotoPickerService>();
             return base.FinishedLaunching(app, options);
         }
     }
