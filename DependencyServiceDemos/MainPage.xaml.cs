@@ -74,10 +74,14 @@ namespace DependencyServiceDemos
 
         private async void OpenScreenShot(object sender, EventArgs e)
         {
-
+            label.Text = DateTime.UtcNow.ToString();
             var stream = new MemoryStream(await CrossScreenshot.Current.CaptureAsync());
             byte[] dataImg = stream.ToArray();
-            yourImage.Source = ImageSource.FromStream(() => stream);
+            var guid = Guid.NewGuid().ToString();
+            DependencyService.Get<IPicture>().SavePictureToDisk(guid, dataImg);
+            await DisplayAlert("Image Save",
+              "The image has been saved",
+              "OK");
 
         }
         private async void ScreenShotAndSave(object sender, EventArgs e)
@@ -85,6 +89,8 @@ namespace DependencyServiceDemos
             try
             {
                 string path = await CrossScreenshot.Current.CaptureAndSaveAsync();
+
+                //ste0
                 label.Text = "Location: " + path + DateTime.UtcNow.ToString();
 
             }
