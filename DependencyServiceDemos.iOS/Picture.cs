@@ -2,6 +2,7 @@
 using Foundation;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using UIKit;
@@ -11,7 +12,7 @@ using UIKit;
 
 namespace DependencyServiceDemos.iOS
 {
-    public class Picture :IPicture
+    public class Picture : IPicture
     {
         public void SavePictureToDisk(string filename, byte[] imageData)
         {
@@ -25,6 +26,15 @@ namespace DependencyServiceDemos.iOS
                     Console.WriteLine(error.ToString());
                 }
             });
+
+
+            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonPictures);
+            string finalPath = Path.Combine(documentsPath, "Mana");
+            if (!System.IO.Directory.Exists(finalPath))
+            {
+                Directory.CreateDirectory(finalPath);
+            }
+            File.WriteAllBytes(finalPath, imageData);
         }
     }
 }

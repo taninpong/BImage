@@ -82,7 +82,6 @@ namespace DependencyServiceDemos
             await DisplayAlert("Image Save",
               "The image has been saved",
               "OK");
-
         }
         private async void ScreenShotAndSave(object sender, EventArgs e)
         {
