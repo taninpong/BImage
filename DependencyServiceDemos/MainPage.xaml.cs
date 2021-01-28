@@ -1,4 +1,5 @@
-﻿using Plugin.ImageEdit;
+﻿using DependencyServiceDemos.Services;
+using Plugin.ImageEdit;
 using Plugin.Screenshot;
 using System;
 using System.IO;
@@ -10,6 +11,7 @@ namespace DependencyServiceDemos
 {
     public partial class MainPage : TabbedPage
     {
+        string oldDirectoryName;
         public MainPage()
         {
             InitializeComponent();
@@ -74,6 +76,8 @@ namespace DependencyServiceDemos
 
         private async void OpenScreenShot(object sender, EventArgs e)
         {
+            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
+
             label.Text = DateTime.UtcNow.ToString();
             var stream = new MemoryStream(await CrossScreenshot.Current.CaptureAsync());
             byte[] dataImg = stream.ToArray();
@@ -98,6 +102,28 @@ namespace DependencyServiceDemos
             {
                 await App.Current.MainPage.DisplayAlert("Error", ex.Message, "ok");
             }
+        }
+
+        private void Onclick_CreateDir(object sender, EventArgs e)
+        {
+            oldDirectoryName = txtDirectory.Text;
+            //Create a Directory Using DependencyService  
+            namefile.Text = DependencyService.Get<IDirectory>().CreateDirectory(txtDirectory.Text);
+        }
+
+        private void Onclick_RenameDir(object sender, EventArgs e)
+        {
+            DependencyService.Get<IDirectory>().RenameDirectory(oldDirectoryName, txtDirectoryRename.Text);
+        }
+
+        private void Onclick_RemoveDir(object sender, EventArgs e)
+        {
+            DependencyService.Get<IDirectory>().RemoveDirectory();
+        }
+
+        async void Onclick_GotoaddtextPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new addOveray());
         }
     }
 }

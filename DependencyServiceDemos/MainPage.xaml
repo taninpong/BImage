@@ -4,13 +4,25 @@
             x:Class="DependencyServiceDemos.MainPage"
             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms">
     <ContentPage>
-            <StackLayout>
+            <StackLayout Padding="10">
+            <Label Text="English" FontFamily="Kanit-Light.ttf#Kanit-Light"/>
+            <Label Text="ภาษาไทย" FontFamily="Kanit-Light.ttf#Kanit-Light"/>
+
             <Button Text="OpenCamara" Clicked="OpenCamara"></Button>
             <Button Text="OpenFlash" Clicked="OpenFlash"></Button>
+            <Button Text="Add text to image" Clicked="Onclick_GotoaddtextPage"></Button>
             <Button Text="ScreenShot" Clicked="OpenScreenShot"></Button>
             <Button Text="ScreenShotAndSave" Clicked="ScreenShotAndSave"></Button>
             <Label Text="Clickme" x:Name="label"></Label>
             <Image x:Name="yourImage"></Image>
+                
+            <Entry x:Name="txtDirectory" Placeholder="Enter Directory Name..."></Entry>
+            <Button x:Name="btnCreate" Text="Create" Clicked="Onclick_CreateDir"></Button>
+            <Entry x:Name="txtDirectoryRename" Placeholder="Enter New Directory Name..."></Entry>
+            <Button x:Name="btnRename" Text="Rename" Clicked="Onclick_RenameDir"></Button>
+            <Button x:Name="btnRemove" Text="Remove" Clicked="Onclick_RemoveDir"></Button>
+
+            <Label Text="Filename" x:Name="namefile"></Label>
         </StackLayout>
             <!--<Grid VerticalOptions="CenterAndExpand"
               HorizontalOptions="CenterAndExpand">
@@ -28,5 +40,6 @@
                         Clicked="OnPickPhotoButtonClicked" />
                 </zxing:ZXingDefaultOverlay>
             </Grid>-->
+            
     </ContentPage>
 </TabbedPage>

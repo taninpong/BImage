@@ -11,6 +11,12 @@ namespace DependencyServiceDemos.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
+
+            #region For Screen Height & Width  
+            App.screenWidth = (int)UIScreen.MainScreen.Bounds.Width;
+            App.screenHeight = (int)UIScreen.MainScreen.Bounds.Height;
+            #endregion
+
             LoadApplication(new App());
 
             DependencyService.Register<ITextToSpeechService, TextToSpeechService>();

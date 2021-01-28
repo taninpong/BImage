@@ -20,6 +20,19 @@ namespace DependencyServiceDemos.Droid
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.Essentials.Platform.Init(Application);
             ZXing.Net.Mobile.Forms.Android.Platform.Init();
+
+            #region For screen Height & Width  
+            var pixels = Resources.DisplayMetrics.WidthPixels;
+            var scale = Resources.DisplayMetrics.Density;
+            var dps = (double)((pixels - 0.5f) / scale);
+            var ScreenWidth = (int)dps;
+            App.screenWidth = ScreenWidth;
+            pixels = Resources.DisplayMetrics.HeightPixels;
+            dps = (double)((pixels - 0.5f) / scale);
+            var ScreenHeight = (int)dps;
+            App.screenHeight = ScreenHeight;
+            #endregion
+
             LoadApplication(new App());
             DependencyService.Register<ITextToSpeechService, TextToSpeechService>();
         }
@@ -54,5 +67,6 @@ namespace DependencyServiceDemos.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
     }
 }
