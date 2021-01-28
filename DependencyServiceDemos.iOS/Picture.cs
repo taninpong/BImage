@@ -26,15 +26,6 @@ namespace DependencyServiceDemos.iOS
                     Console.WriteLine(error.ToString());
                 }
             });
-
-
-            string documentsPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonPictures);
-            string finalPath = Path.Combine(documentsPath, "Mana");
-            if (!System.IO.Directory.Exists(finalPath))
-            {
-                Directory.CreateDirectory(finalPath);
-            }
-            File.WriteAllBytes(finalPath, imageData);
         }
     }
 }
